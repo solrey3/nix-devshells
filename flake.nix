@@ -7,9 +7,14 @@
   };
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" "aarch64-linux" ] (system:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ] (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+          };
+        };
       in
       {
         devShells = {
@@ -30,11 +35,15 @@
           python-fasthtml = pkgs.mkShell {
             packages = with pkgs; [
               python3
-              # Assuming FastHTML is available via pip, you might need pip to install it
-              python3Packages.pip
+              # Other packages can go here
             ];
 
             shellHook = ''
+              if [ ! -d ".venv" ]; then
+                python3 -m venv .venv
+              fi
+              source .venv/bin/activate
+              pip install --upgrade pip
               pip install python-fasthtml
             '';
           };
@@ -44,8 +53,8 @@
               nodejs
               yarn
               terraform
-              cdktf
-              cdk8s
+              nodePackages.cdktf-cli
+              nodePackages.cdk8s-cli
             ];
           };
         };
