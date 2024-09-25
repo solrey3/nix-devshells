@@ -18,6 +18,25 @@
       in
       {
         devShells = {
+
+          azure-pern-infra = pkgs.mkShell {
+            packages = with pkgs; [
+              nodejs
+              yarn
+              _1password
+              nodePackages.cdktf-cli
+              nodePackages.cdk8s-cli
+              terraform
+              kubectl
+              azure-cli
+            ];
+            shellHook = ''
+              echo "Entering Azure Setup Environment"
+              export NODE_OPTIONS="--max-old-space-size=4096"
+              export ENV=${ENV:-dev}
+            '';
+          };
+
           python-data-science = pkgs.mkShell {
             packages = with pkgs; [
               python3
