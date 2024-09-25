@@ -15,13 +15,23 @@
             allowUnfree = true;
           };
         };
+       # Define the desired npm version
+       desiredNpmVersion = "10.8.3";
+
+       # Override the npm version in the nodejs package
+       nodejs_with_custom_npm = pkgs.nodejs-20_x.override {
+         npm = pkgs.fetchurl {
+        url = "https://registry.npmjs.org/npm/-/npm-${desiredNpmVersion}.tgz";
+        sha256 = "sha256-t9x+tI10ebk2aOkTx61oarKqcccF1KVrUyPRv/26KXI=";
+    };
+  };
       in
       {
         devShells = {
 
           azure-pern-infra = pkgs.mkShell {
             packages = with pkgs; [
-              nodejs
+              nodejs_with_custom_npm
               yarn
               _1password
               nodePackages.cdktf-cli
