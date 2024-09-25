@@ -29,6 +29,9 @@
               terraform
               kubectl
               azure-cli
+              python3
+              python3Packages.knack
+              python3Packages.requests
             ];
             shellHook = ''
               echo "Entering Azure Setup Environment"
