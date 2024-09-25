@@ -32,6 +32,7 @@
               python3
               python3Packages.knack
               python3Packages.requests
+              python312Packages.pip
             ];
             shellHook = ''
               echo "Entering Azure Setup Environment"
