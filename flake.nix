@@ -19,7 +19,7 @@
        desiredNpmVersion = "10.8.3";
 
        # Override the npm version in the nodejs package
-       nodejs_with_custom_npm = pkgs.nodejs-20_x.override {
+       nodejs_with_custom_npm = pkgs.nodejs_20.override {
          npm = pkgs.fetchurl {
         url = "https://registry.npmjs.org/npm/-/npm-${desiredNpmVersion}.tgz";
         sha256 = "sha256-t9x+tI10ebk2aOkTx61oarKqcccF1KVrUyPRv/26KXI=";
